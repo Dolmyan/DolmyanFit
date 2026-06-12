@@ -1,0 +1,23 @@
+# Секреты
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Логи
+logs/
+*.log
+
+# База данных (на сервере своя, с реальными пользователями — не перезаписывать!)
+*.db
+*.db-journal
+*.sqlite3
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

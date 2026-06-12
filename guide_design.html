@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Система минус 15 кг</title>
+<style>
+  @page { size: A4; margin: 0; }
+
+  :root {
+    --ink:        #1c2620;
+    --ink-soft:   #44514a;
+    --muted:      #6f7c74;
+    --green:      #1f6f4e;
+    --green-deep: #144a34;
+    --green-dark: #0e3424;
+    --accent:     #e8843b;
+    --accent-2:   #f2a35e;
+    --paper:      #ffffff;
+    --cream:      #f6f3ec;
+    --card:       #f4f7f4;
+    --line:       #e2e7e1;
+    --gold:       #d8b25a;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    color: var(--ink);
+    font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    background: var(--paper);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    margin: 0; line-height: 1.15;
+  }
+  p { margin: 0 0 11px 0; }
+
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    page-break-after: always;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: auto; }
+  .pad { padding: 22mm 20mm 24mm 20mm; }
+
+  /* ===== COVER ===== */
+  .cover {
+    background:
+      radial-gradient(120% 90% at 80% -10%, rgba(232,132,59,0.25) 0%, rgba(232,132,59,0) 55%),
+      linear-gradient(160deg, var(--green-dark) 0%, var(--green-deep) 45%, #0a2a1c 100%);
+    color: #fff;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 26mm 20mm 22mm 20mm;
+  }
+  .cover::before {
+    content: ""; position: absolute; right: -120px; top: -120px;
+    width: 420px; height: 420px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.08);
+  }
+  .cover::after {
+    content: ""; position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    border: 2px solid rgba(232,132,59,0.18);
+  }
+  .cover-top {
+    display: flex; align-items: center; gap: 12px;
+    letter-spacing: 3px; font-size: 10pt; text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    font-family: "Montserrat", sans-serif; font-weight: 600;
+  }
+  .cover-top .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 5px rgba(232,132,59,0.18);
+  }
+  .cover-mid { position: relative; z-index: 2; }
+  .kicker {
+    display: inline-block; font-family: "Montserrat", sans-serif; font-weight: 600;
+    font-size: 9.5pt; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-2); padding: 7px 14px;
+    border: 1px solid rgba(242,163,94,0.4); border-radius: 40px; margin-bottom: 26px;
+  }
+  .cover h1 { font-size: 52pt; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 4px; }
+  .cover h1 .hl { color: var(--accent); }
+  .cover .sub {
+    font-size: 15pt; font-weight: 300; color: rgba(255,255,255,0.82);
+    max-width: 420px; margin-top: 14px; line-height: 1.5; font-family: "Manrope", sans-serif;
+  }
+  .stat-row { display: flex; gap: 16px; margin-top: 40px; }
+  .stat {
+    flex: 1; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px 18px;
+  }
+  .stat .num { font-family: "Montserrat", sans-serif; font-weight: 800; font-size: 26pt; color: var(--accent-2); line-height: 1; }
+  .stat .lbl { font-size: 9pt; letter-spacing: 0.5px; color: rgba(255,255,255,0.7); margin-top: 7px; text-transform: uppercase; }
+  .cover-bottom {
+    position: relative; z-index: 2; display: flex; justify-content: space-between;
+    align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.14);
+    padding-top: 18px; font-size: 10pt; color: rgba(255,255,255,0.7);
+  }
+  .cover-bottom .handle { font-family: "Montserrat", sans-serif; font-weight: 700; color: #fff; font-size: 12pt; }
+
+  /* ===== HEADERS ===== */
+  .block-head { margin: 0 0 22px 0; padding-bottom: 16px; border-bottom: 2px solid var(--line); position: relative; }
+  .block-head .tag { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 9pt; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+  .block-head h2 { font-size: 26pt; font-weight: 800; color: var(--green-deep); letter-spacing: -0.5px; margin-top: 6px; }
+  .block-head .lead { margin-top: 8px; color: var(--muted); font-style: italic; font-size: 11pt; }
+
+  /* ===== NUMBERED ITEM ===== */
+  .item { display: flex; gap: 16px; padding: 13px 0 15px 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .item:last-child { border-bottom: none; }
+  .badge {
+    flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(150deg, var(--green) 0%, var(--green-deep) 100%);
+    color: #fff; font-family: "Montserrat", sans-serif; font-weight: 800; font-size: 13pt;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(20,74,52,0.18);
+  }
+  .item-body { flex: 1; }
+  .item-body h3 { font-size: 13pt; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+  .item-body p { color: var(--ink-soft); margin: 0; }
+  .item-body p + p { margin-top: 8px; }
+  .item-body strong { color: var(--green-deep); }
+
+  /* ===== AUTHOR ===== */
+  .author { background: var(--cream); border-radius: 18px; padding: 26px 28px; margin-bottom: 22px; border-left: 5px solid var(--accent); }
+  .author p { color: var(--ink-soft); font-size: 11.5pt; }
+  .author p:last-child { margin-bottom: 0; }
+  .author .name { font-family: "Montserrat", sans-serif; font-weight: 800; color: var(--green-deep); font-size: 13pt; }
+
+  /* ===== CALLOUT ===== */
+  .callout { background: linear-gradient(160deg, var(--green-deep), var(--green-dark)); color: #fff; border-radius: 18px; padding: 24px 26px; margin: 18px 0; break-inside: avoid; }
+  .callout h3 { color: #fff; font-size: 14pt; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .callout h3::before { content: ""; width: 22px; height: 22px; border-radius: 6px; background: var(--accent); display: inline-block; }
+  .steps { counter-reset: st; list-style: none; padding: 0; margin: 0; }
+  .steps li { position: relative; padding: 10px 0 10px 44px; border-bottom: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    counter-increment: st; content: counter(st); position: absolute; left: 0; top: 10px;
+    width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-family: "Montserrat", sans-serif; font-weight: 800; font-size: 11pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps li strong { color: #fff; }
+
+  /* ===== FACT CARD ===== */
+  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; break-inside: avoid; border-top: 3px solid var(--accent); }
+  .fact h3 { font-size: 12.5pt; color: var(--green-deep); margin-bottom: 6px; }
+  .fact p { color: var(--ink-soft); margin: 0; }
+
+  .pill { display: inline-block; background: rgba(232,132,59,0.14); color: var(--accent); font-weight: 700; border-radius: 6px; padding: 1px 7px; font-size: 0.92em; }
+
+  /* ===== CLOSING ===== */
+  .close-hero { background: linear-gradient(160deg, var(--green-dark), #0a2a1c); color: #fff; border-radius: 22px; padding: 34px 32px; margin-bottom: 22px; }
+  .close-hero h2 { font-size: 24pt; font-weight: 800; margin-bottom: 12px; }
+  .close-hero p { color: rgba(255,255,255,0.85); font-size: 12pt; }
+  .close-hero .accent-line { color: var(--accent-2); font-weight: 700; }
+  .todo { counter-reset: td; list-style: none; padding: 0; margin: 18px 0; }
+  .todo li { position: relative; background: var(--cream); border-radius: 12px; padding: 16px 18px 16px 60px; margin-bottom: 12px; color: var(--ink-soft); break-inside: avoid; }
+  .todo li::before {
+    counter-increment: td; content: counter(td); position: absolute; left: 16px; top: 50%;
+    transform: translateY(-50%); width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(150deg, var(--accent), var(--accent-2)); color: #fff;
+    font-family: "Montserrat", sans-serif; font-weight: 800; display: flex; align-items: center; justify-content: center;
+  }
+  .cta { text-align: center; border: 2px dashed var(--gold); border-radius: 18px; padding: 28px; margin-top: 6px; }
+  .cta p { color: var(--ink-soft); max-width: 460px; margin: 0 auto 14px auto; }
+  .cta .handle {
+    display: inline-block; font-family: "Montserrat", sans-serif; font-weight: 800;
+    font-size: 17pt; color: #fff; background: linear-gradient(150deg, var(--green), var(--green-deep));
+    padding: 12px 30px; border-radius: 50px; letter-spacing: 0.5px;
+  }
+
+  .pg-footer {
+    position: absolute; bottom: 12mm; left: 20mm; right: 20mm;
+    display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--muted);
+    border-top: 1px solid var(--line); padding-top: 8px;
+    font-family: "Montserrat", sans-serif; letter-spacing: 0.5px;
+  }
+  .pg-footer .h { color: var(--green); font-weight: 700; }
+  .section-note { color: var(--muted); font-size: 10pt; font-style: italic; margin: -8px 0 18px 0; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page cover">
+  <div class="cover-top"><span class="dot"></span> ПЕРСОНАЛЬНЫЙ ГАЙД ПО ПИТАНИЮ</div>
+  <div class="cover-mid">
+    <span class="kicker">Система, а не мотивация</span>
+    <h1>Минус <span class="hl">15&nbsp;кг</span><br>за 4&nbsp;месяца</h1>
+    <p class="sub">Без зала. Без голода. Без срывов на третьей неделе. То, что реально работает — проверено на себе.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="num">−15</div><div class="lbl">килограммов</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">месяца</div></div>
+      <div class="stat"><div class="num">80/20</div><div class="lbl">принцип системы</div></div>
+    </div>
+  </div>
+  <div class="cover-bottom"><div>Автор&nbsp;·&nbsp;Валерий</div><div class="handle">@dolmyan.fit</div></div>
+</div>
+
+<!-- ВСТУПЛЕНИЕ -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Вступление</div><h2>С чего всё началось</h2></div>
+    <div class="author">
+      <p><span class="name">Меня зовут Валерий.</span> Я не фитнес-блогер с идеальным прессом. Я человек, который однажды устал от лишнего веса, перепробовал всё что можно — и в итоге нашёл систему, которая сработала. <strong>Минус 15 кг за 4 месяца.</strong> Без зала. Без голода. Без срывов на третьей неделе.</p>
+      <p>Этот гайд — не теория из учебника. Это то, что реально работает. Каждый пункт я проверил на себе.</p>
+      <p>Читай внимательно. Возвращайся к нему каждое утро.</p>
+    </div>
+    <div class="fact">
+      <h3>Как устроен гайд</h3>
+      <p>Дальше — конкретика без воды: факты о питании, бытовые лайфхаки с большим эффектом и самый важный блок про психологию, где ломается большинство. Двигайся по порядку и внедряй по одному пункту за раз.</p>
+    </div>
+  </div>
+  <div class="pg-footer"><span>Система минус 15 кг</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- ПИТАНИЕ -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Блок · Питание</div><h2>Факты, которые меняют рацион</h2><div class="lead">Что реально влияет на дефицит и аппетит</div></div>
+    <div class="fact"><h3>Клетчатка — 25–30 г в день</h3><p>Больше клетчатки в день = меньше голода, стабильный сахар, лучшее пищеварение. Источники: овощи, бобовые, цельные злаки, яблоко с кожурой.</p></div>
+    <div class="fact"><h3>Алкоголь и дефицит — сложная история</h3><p>Алкоголь: <span class="pill">7 ккал / г</span> — почти как жир. Бокал вина — 120–150 ккал, бутылка пива — 200–250 ккал. Но главная проблема не в калориях: на следующий день снижается сила воли, растёт аппетит, тело приоритизирует сжигание алкоголя вместо жира. Один вечер с пивом откатывает прогресс на 2–3 дня.</p></div>
+    <div class="fact"><h3>Специи ускоряют метаболизм — немного, но реально</h3><p>Кайенский перец (капсаицин): +4–5% к метаболизму на несколько часов. Имбирь: улучшает пищеварение и термогенез. Корица: стабилизирует сахар в крови. Не волшебство — но бесплатный бонус к обычной еде.</p></div>
+    <div class="fact"><h3>Переедание за один вечер не убивает результат</h3><p>Чтобы набрать 1 кг жира, нужно съесть 7700 ккал сверх нормы — за один вечер это физически невозможно. Плюс 500–700 ккал за праздничный ужин = максимум +100 г жира. Это не катастрофа. Катастрофа — когда после этого человек говорит «всё, я слабак» и бросает систему на месяц.</p></div>
+  </div>
+  <div class="pg-footer"><span>Система минус 15 кг</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- БЛОК 4 -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Блок 4</div><h2>Лайфхаки в быту</h2><div class="lead">Маленькие изменения с большим эффектом</div></div>
+    <div class="item"><div class="badge">1</div><div class="item-body"><h3>Готовь белок на 3 дня вперёд</h3><p>Сварил 6 яиц и 500 г грудки в воскресенье — еда на 3 дня в холодильнике. Когда решение уже принято и еда готова, вероятность срыва на фастфуд падает в разы. Срыв происходит не потому что нет силы воли, а потому что нет готовой еды в нужный момент.</p></div></div>
+    <div class="item"><div class="badge">2</div><div class="item-body"><h3>Тарелка 22 см вместо 26 см</h3><p>Исследование Корнелльского университета: люди едят на 22% меньше с меньшей тарелкой без ощущения ограничений. Мозг видит полную тарелку — считает, что еды достаточно. Купи тарелку меньше: один раз, бесплатно работает всю жизнь.</p></div></div>
+    <div class="item"><div class="badge">3</div><div class="item-body"><h3>Стакан воды за 15–20 минут до еды</h3><p>Люди съедают на 13% меньше, если выпить 500 мл воды перед едой. Желудок частично заполнен, сигнал сытости приходит быстрее. Плюс часто убирает ложный голод ещё до начала приёма пищи.</p></div></div>
+    <div class="item"><div class="badge">4</div><div class="item-body"><h3>Не ешь из упаковки</h3><p>Орехи из пакета, чипсы из большой упаковки, печенье из коробки — ты не контролируешь сколько съел. Всегда перекладывай в тарелку. Видишь объём — контролируешь количество. Это убирает 200–300 незаметных калорий в день.</p></div></div>
+    <div class="item"><div class="badge">5</div><div class="item-body"><h3>Ешь медленно — 20 минут минимум</h3><p>Сигнал сытости от желудка до мозга идёт 15–20 минут. Ешь быстро — переедаешь на 200–400 ккал, пока сигнал не дошёл. Простое правило: клади вилку между каждым кусочком, жуй 20–30 раз. Неудобно первую неделю, потом автоматически.</p></div></div>
+  </div>
+  <div class="pg-footer"><span>Блок 4 · Лайфхаки в быту</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- БЛОК 4 продолжение -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Блок 4 · продолжение</div><h2>Лайфхаки в быту</h2></div>
+    <div class="item"><div class="badge">6</div><div class="item-body"><h3>Убери вредную еду с видного места</h3><p>Исследование: люди едят на 70% больше конфет, если вазочка стоит на столе, а не в ящике. Глаза видят — рука тянется автоматически, без голода. Убери с прилавка. Не покупай домой. Хочется — выйди и купи специально. Половина желаний исчезнет по дороге.</p></div></div>
+    <div class="item"><div class="badge">7</div><div class="item-body"><h3>Готовь список покупок и ходи в магазин сытым</h3><p>Голодный человек в магазине тратит на 30–40% больше и берёт в 2 раза больше калорийной еды. Список убирает импульсивные покупки. Сытый желудок убирает «а возьму на всякий случай». Два простых правила экономят деньги и калории одновременно.</p></div></div>
+    <div class="item"><div class="badge">8</div><div class="item-body"><h3>Фото еды перед приёмом пищи</h3><p>Просто сфотографируй что собираешься съесть. Это заставляет мозг осознанно посмотреть на тарелку — и часто убрать лишнее. Плюс потом можно оценить паттерны: что ты реально ешь vs что думаешь что ешь. Разница обычно шокирует.</p></div></div>
+    <div class="item"><div class="badge">9</div><div class="item-body"><h3>Добавь 7000 шагов в день</h3><p>Не нужен зал. 7000 шагов в день = 300–400 ккал дополнительного расхода. Это почти 100 г жира в неделю только от ходьбы. Паркуйся дальше, выходи на остановку раньше, звонки делай стоя. Набирается незаметно.</p></div></div>
+    <div class="item"><div class="badge">10</div><div class="item-body"><h3>Планируй срыв заранее</h3><p>День рождения, корпоратив, ресторан с друзьями — ты знаешь об этом заранее. Сделай дефицит чуть больше за 2–3 дня до. Или оставь запас калорий на этот день. Срыв по плану — это не срыв. Это гибкая система, которая работает в реальной жизни.</p></div></div>
+  </div>
+  <div class="pg-footer"><span>Блок 4 · Лайфхаки в быту</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- БЛОК 5 -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Блок 5</div><h2>Психология</h2><div class="lead">Самый важный блок. Здесь ломается большинство</div></div>
+    <p class="section-note"><strong>Почему люди бросают.</strong> Не потому что нет силы воли. Не потому что «не дано». А потому что относятся к похудению как к спринту — а это марафон. И потому что первый же срыв воспринимают как доказательство провала.</p>
+    <div class="item"><div class="badge">1</div><div class="item-body"><h3>Срыв — это сигнал, не приговор</h3><p>Большинство людей бросают не из-за срыва, а из-за реакции на срыв. Логика: «я съел лишнее → я слабак → система не работает → зачем продолжать». Каждый этот шаг — ошибка мышления.</p><p>Реальность: срыв в 500–700 ккал сверху = максимум 100 г жира. Это меньше одного дня прогресса. Это ничто на масштабе 4 месяцев.</p><p><strong>Правило:</strong> после срыва — следующий приём пищи по плану. Не «начну с понедельника». Следующий приём. Через 3–4 часа.</p></div></div>
+    <div class="item"><div class="badge">2</div><div class="item-body"><h3>Система 80/20</h3><p>80% времени — питаешься по плану, в дефиците, без отклонений. 20% — живёшь: идёшь на день рождения, ешь пиццу с друзьями, позволяешь десерт в ресторане. Это не слабость — это устойчивость. Система, которую можно держать год, лучше идеальной диеты, которую бросаешь через месяц.</p></div></div>
+    <div class="item"><div class="badge">3</div><div class="item-body"><h3>Мой путь — это не прямая линия</h3><p>Минус 15 кг за 4 месяца красиво выглядит на бумаге. На деле это: две недели минус 2 кг, потом неделя плато, потом плюс 500 г, потом снова минус. Это нормально. Это физиология — тело адаптируется, задерживает воду, меняет гормоны. Смотри на тренд за месяц, не на весы каждое утро.</p></div></div>
+  </div>
+  <div class="pg-footer"><span>Блок 5 · Психология</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- БЛОК 5 продолжение -->
+<div class="page">
+  <div class="pad">
+    <div class="block-head"><div class="tag">Блок 5 · продолжение</div><h2>Психология</h2></div>
+    <div class="item"><div class="badge">4</div><div class="item-body"><h3>Идентичность важнее мотивации</h3><p>Мотивация приходит и уходит. В понедельник — горишь. В четверг после тяжёлого дня — нет сил ни на что. Те, кто держат систему долго, — не те, у кого больше мотивации, а те, кто изменил идентичность: не «я пытаюсь похудеть», а «я человек, который следит за питанием». Маленькая разница в словах — огромная разница в поведении.</p></div></div>
+    <div class="item"><div class="badge">5</div><div class="item-body"><h3>Окружение решает больше чем сила воли</h3><p>Если дома нет вредной еды — её не съешь. Если друзья постоянно предлагают «ну один раз можно» — держаться в 10 раз сложнее. Это не слабость, это нейробиология. Убери соблазны из среды. Предупреди близких, что ты в процессе. Найди хотя бы одного человека, кто тоже работает над здоровьем.</p></div></div>
+    <div class="callout">
+      <h3>Протокол выхода из срыва — 3 шага</h3>
+      <ol class="steps">
+        <li><strong>Зафиксируй без осуждения.</strong> «Я съел лишнее. Это случилось. Это не катастрофа.» Буквально скажи это себе вслух или напиши.</li>
+        <li><strong>Найди причину.</strong> Голод? Стресс? Скука? Компания? Понять причину = не повторить в следующий раз. Это данные, не вина.</li>
+        <li><strong>Следующий приём пищи — по плану.</strong> Не «завтра начну заново». Следующий приём, через 3–4 часа. Одно правильное решение после срыва восстанавливает систему.</li>
+      </ol>
+    </div>
+    <div class="item"><div class="badge">7</div><div class="item-body"><h3>Прогресс невидим изнутри</h3><p>Ты видишь себя каждый день — изменения незаметны. Поэтому фотографируй себя раз в 2 недели: одинаковая одежда, ракурс, освещение. Сравнение фото через 6 недель — лучший мотиватор, который существует. Весы врут. Фото — нет.</p></div></div>
+    <div class="item"><div class="badge">8</div><div class="item-body"><h3>Усталость и стресс — главные триггеры срывов</h3><p>При недосыпе (меньше 6 часов) уровень грелина (гормон голода) растёт на 28%, уровень лептина (сытость) падает на 18%. Ты буквально голоднее, когда не выспался — это не слабость, это химия. Сон — часть системы похудения, не опция.</p></div></div>
+  </div>
+  <div class="pg-footer"><span>Блок 5 · Психология</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+<!-- ЗАКЛЮЧЕНИЕ -->
+<div class="page">
+  <div class="pad">
+    <div class="close-hero">
+      <h2>Ты дочитал до конца</h2>
+      <p>А это уже говорит о многом — большинство не доходит. Теперь у тебя есть <span class="accent-line">система</span>, а не мотивация. Мотивация кончается. Система работает даже когда не хочется.</p>
+    </div>
+    <div class="block-head"><div class="tag">Сделай прямо сейчас</div><h2>Три первых шага</h2></div>
+    <ol class="todo">
+      <li>Открой холодильник и убери оттуда 1–2 продукта-обманщика из первого блока.</li>
+      <li>Запланируй, что приготовишь на ближайшие 3 дня.</li>
+      <li>Взвесься завтра утром и запомни цифру — это твоя точка старта.</li>
+    </ol>
+    <div class="cta">
+      <p>Если хочешь не разбираться в одиночку — я веду людей лично. Считаем КБЖУ под тебя, корректирую рацион, на связи каждый день. Это убирает 90% вопросов и ускоряет результат в 2–3 раза.</p>
+      <p style="font-weight:600;color:var(--green-deep)">Напиши мне — разберёмся.</p>
+      <span class="handle">@dolmyan.fit</span>
+    </div>
+  </div>
+  <div class="pg-footer"><span>Система минус 15 кг · Заключение</span><span class="h">@dolmyan.fit</span></div>
+</div>
+
+</body>
+</html>

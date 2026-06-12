@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Applications/\"Google Chrome.app\"/Contents/MacOS/\"Google Chrome\" --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=\"guide_dolmyanfit.pdf\" \"file://$\\(pwd\\)/guide_design.html\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(mdls *)",
+      "Bash(qlmanage -t -s 1200 -o /tmp/prev guide_dolmyanfit.pdf)",
+      "Read(//tmp/**)",
+      "Bash(mkdir -p /tmp/prev)",
+      "Bash(qlmanage -t -s 1400 -o /tmp/prev guide_dolmyanfit.pdf)",
+      "Read(//Applications/Google Chrome.app/Contents/MacOS/**)",
+      "Bash(python3 -c \"import weasyprint; print\\('WEASY_OK'\\)\")",
+      "Bash(brew --version)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=\"Гайд_DolmyanFit_минус15.pdf\" \"file://$\\(pwd\\)/guide_full.html\")",
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(python3 *)",
+      "Bash(brew install *)",
+      "Bash(pdftoppm -png -r 70 -f 1 -l 6 \"Гайд_DolmyanFit_минус15.pdf\" /tmp/g)",
+      "Bash(rm -f /tmp/g*.png)",
+      "Bash(pdftoppm -png -r 70 \"Гайд_DolmyanFit_минус15.pdf\" /tmp/g)",
+      "Bash(pdftoppm -png -r 200 -f 3 -l 3 \"Гайд_DolmyanFit_минус15.pdf\" /tmp/hi)",
+      "Bash(sips -c 700 460 --cropOffset 360 380 hi-03.png --out crop_badges.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight crop_badges.png)",
+      "Bash(sips -c 760 280 --cropOffset 380 150 hi-03.png --out crop_left.png)",
+      "Bash(sips -g pixelHeight crop_left.png)",
+      "Bash(pdftoppm -png -r 200 -f 3 -l 3 \"Гайд_DolmyanFit_минус15.pdf\" /tmp/hi2)",
+      "Bash(sips -c 900 520 --cropOffset 350 110 hi2-03.png --out crop_fix.png)"
+    ]
+  }
+}
